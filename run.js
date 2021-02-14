@@ -14,11 +14,14 @@
 // > Sensors: Association with Actions
 // > Sensors: Restrict to only 8
 // > Implement grid simulation: https://sanojian.github.io/cellauto/
-
-// Pass 6:
 // > Sensors: Ability to detect whether a location is occupied
 // > Give world the ability to track occupied locations
 // > Every time an agent is moved somewhere, world is notified
+// > Test numAgents with Jest
+// > Change location to object instead
+
+// Pass 6:
+// > Set up Jest
 
 
 class Agent {
@@ -53,6 +56,10 @@ class Agent {
         return [this.x, this.y];
     }
 
+    isAtLoc(loc) {
+        return Boolean(!(this.x - loc[0]) && !(this.y - loc[1]));
+    }
+
     move(x, y) {
         this.x = this.x + x;
         this.y = this.y + y;
@@ -72,13 +79,14 @@ class Agent {
         this.world.addNewAgent(this.x, this.y);
     }
 
-    senseSurroundings() {
-        this.sensors[0] = this.world.numAgents(this.getLoc()) - 1;
-
-        for (let i = 0; i < 8; i++) {
-            this.sensors[i] = this.world.numAgents(this.getLoc());
-        }
-    }
+    // senseSurroundings() {
+    //     this.sensors[0] = this.world.numAgents(this.getLoc()) - 1;
+    //
+    //     // /todo: sense position relative to self
+    //     // for (let i = 0; i < 8; i++) {
+    //     //     this.sensors[i] = this.world.numAgents(this.getLoc());
+    //     // }
+    // }
 }
 
 const world = {
@@ -107,32 +115,23 @@ const world = {
     },
 
     numAgents(loc) {
-
-
-        ....
-
-
-
-        ....
-
-        ....
-
-
-
-
-        [loop through list of agents and add up]
-
-        const numbers = [1,2,3,4,5];
-        const sum = numbers.reduce((total, n) => total + n, 0);
+        function agentAccumulator(totalNum, agent) {
+            return totalNum + agent.isAtLoc(loc);
+        }
+        return agents.reduce(agentAccumulator, initialValue = 0);
     }
 };
 
 const rounds = 5;
 
-world.addNewAgent(0,0);
 
-[...Array(rounds).keys()].forEach(world.runRound.bind(world));
+module.exports = world;
 
-console.log("---")
 
-world.printAgents();
+// world.addNewAgent(0,0);
+//
+// [...Array(rounds).keys()].forEach(world.runRound.bind(world));
+//
+// console.log("---")
+//
+// world.printAgents();
