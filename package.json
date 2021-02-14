@@ -1,0 +1,22 @@
+{
+  "name": "agent_simulator",
+  "version": "1.0.0",
+  "description": "Package to simulate evolution of single-cellular agents",
+  "main": "run.js",
+  "scripts": {
+    "test": "npx jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mjcha1024/agents.git"
+  },
+  "author": "John Cha",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mjcha1024/agents/issues"
+  },
+  "homepage": "https://github.com/mjcha1024/agents#readme",
+  "dependencies": {
+    "jest": "^26.6.3"
+  }
+}
