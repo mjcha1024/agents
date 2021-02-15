@@ -4,6 +4,9 @@
  */
 
 module.exports = {
+    setupFiles: [
+        '<rootDir>/tests/setup.jest.js'
+    ],
     testEnvironment: 'node',
     slowTestThreshold: 120000, // Two minutes
     testTimeout: 300000, // Five minutes

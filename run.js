@@ -21,8 +21,7 @@
 // > Change location to object instead
 
 // Pass 6:
-// > Set up Jest
-
+// > Test: isAtLoc()
 
 class Agent {
     constructor(world, id, x, y) {
@@ -56,8 +55,8 @@ class Agent {
         return [this.x, this.y];
     }
 
-    isAtLoc(loc) {
-        return Boolean(!(this.x - loc[0]) && !(this.y - loc[1]));
+    isAtLoc(x, y) {
+        return Boolean(!(this.x - x) && !(this.y - y));
     }
 
     move(x, y) {
@@ -114,11 +113,11 @@ const world = {
         );
     },
 
-    numAgents(loc) {
+    numAgents(x, y) {
         function agentAccumulator(totalNum, agent) {
-            return totalNum + agent.isAtLoc(loc);
+            return totalNum + agent.isAtLoc(x, y);
         }
-        return agents.reduce(agentAccumulator, initialValue = 0);
+        return this.agents.reduce(agentAccumulator, initialValue = 0);
     }
 };
 
