@@ -22,7 +22,6 @@
 
 // Pass 6:
 // > Test: isAtLoc()
-// > Change world into a class
 
 class Agent {
     constructor(world, id, x, y) {
@@ -157,7 +156,7 @@ class World {
         function agentAccumulator(totalNum, agent) {
             return totalNum + agent.isAtLoc(x, y);
         }
-        return this.agents.reduce(agentAccumulator, initialValue = 0);
+        return this.agents.reduce(agentAccumulator, 0);
     }
 };
 
