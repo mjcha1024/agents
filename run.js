@@ -22,6 +22,7 @@
 
 // Pass 6:
 // > Test: isAtLoc()
+// > Change world into a class
 
 class Agent {
     constructor(world, id, x, y) {
@@ -88,21 +89,60 @@ class Agent {
     // }
 }
 
-const world = {
-    agents: [],
-    nextID: 0,
+// const world = {
+//     agents: [],
+//     nextID: 0,
+//
+//     addNewAgent(x, y) {
+//         this.agents.push(new Agent(this, this.nextID, x, y));
+//         this.nextID = this.nextID + 1;
+//     },
+//
+//     printAgents() {
+//         function printAgent(agent) {
+//             console.log(`${agent.id}: ${agent.getLoc()}`);
+//         }
+//         this.agents.forEach(printAgent);
+//     },
+//
+//     runRound(round) {
+//         // if (round === 5) {  // TEST
+//         //     this.agents[0].reproduce();
+//         // }
+//         this.agents.forEach(
+//             agent => agent.act()
+//         );
+//     },
+//
+//     numAgents(x, y) {
+//         function agentAccumulator(totalNum, agent) {
+//             return totalNum + agent.isAtLoc(x, y);
+//         }
+//         return this.agents.reduce(agentAccumulator, initialValue = 0);
+//     }
+// };
+
+const rounds = 5;
+
+
+
+class World {
+    constructor() {
+        this.agents = [];
+        this.nextID = 0;
+    }
 
     addNewAgent(x, y) {
         this.agents.push(new Agent(this, this.nextID, x, y));
         this.nextID = this.nextID + 1;
-    },
+    }
 
     printAgents() {
         function printAgent(agent) {
             console.log(`${agent.id}: ${agent.getLoc()}`);
         }
         this.agents.forEach(printAgent);
-    },
+    }
 
     runRound(round) {
         // if (round === 5) {  // TEST
@@ -111,7 +151,7 @@ const world = {
         this.agents.forEach(
             agent => agent.act()
         );
-    },
+    }
 
     numAgents(x, y) {
         function agentAccumulator(totalNum, agent) {
@@ -121,10 +161,7 @@ const world = {
     }
 };
 
-const rounds = 5;
-
-
-module.exports = world;
+module.exports = World;
 
 
 // world.addNewAgent(0,0);
