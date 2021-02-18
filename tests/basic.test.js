@@ -12,6 +12,23 @@ afterEach(() => {
     world = {};
 });
 
+
+test('moving causes previous occupied location to be unoccupied', () => {
+});
+
+test('occupied location is correct when agent moves', () => {
+    world.addNewAgent(0, 0);
+    world.runRound();
+    agentLoc = world.agents[0].getLoc();
+    expect(world.isOccupied(agentLoc[0], agentLoc[1])).toBe(true);
+});
+
+test('occupied location is correct when agent created', ()  => {
+    expect(world.isOccupied(0, 0)).toBe(false);
+    world.addNewAgent(0, 0);
+    expect(world.isOccupied(0, 0)).toBe(true);
+});
+
 test('world is created', () => {
     world.addNewAgent(0,0);
     expect(world.agents.length).toBe(1);

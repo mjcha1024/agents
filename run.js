@@ -1,8 +1,10 @@
 // Ideas:
 // > [action: send signal to a sensor]
 // > [3d, sunlight, seafloor vents, landscape, gravity]
+// > Implement grid simulation: https://sanojian.github.io/cellauto/
+// > [todo: reduce energy by distance moved]
 
-// Future:
+// Backlog:
 // > Environment
 // > Bonds
 // > Genes: Action, strength of action, sensory slot
@@ -12,16 +14,17 @@
 // > Behavior
 // > Sensors: Free Receptors
 // > Sensors: Association with Actions
-// > Sensors: Restrict to only 8
-// > Implement grid simulation: https://sanojian.github.io/cellauto/
+// > Sensors: Add behavior to use sensor
 // > Sensors: Ability to detect whether a location is occupied
 // > Give world the ability to track occupied locations
-// > Every time an agent is moved somewhere, world is notified
-// > Test numAgents with Jest
-// > Change location to object instead
 
-// Pass 6:
-// > Test: isAtLoc()
+// Pass 8:
+// > Make it so that location checking calculation doesn't go up by square
+// > Metric: location checking amount
+
+// Pass 7:
+// > Test: When an agent moves, occupied locations updates
+
 
 class Agent {
     constructor(world, id, x, y) {
@@ -47,7 +50,7 @@ class Agent {
     act() {
         this.moveRand();
         this.reproduce();
-        this.sense();
+        // this.sense();
         console.log(`${this.id}: ${this.getLoc()}`);
     }
 
@@ -60,18 +63,19 @@ class Agent {
     }
 
     move(x, y) {
+        // console.log(this.x)
+        // console.log(this.y)
+        this.world.unsetOccupiedLoc(this.x, this.y)
         this.x = this.x + x;
         this.y = this.y + y;
-        // > [todo: reduce energy by distance moved]
+        this.world.setOccupiedLoc(this.x, this.y);
     }
 
     moveRand() {
-        this.x = this.x + this.randMoveAmount();
-        this.y = this.y + this.randMoveAmount();
-    }
-
-    randMoveAmount() {
-        return Math.floor(Math.random() * 3) - 1;
+        function randMoveAmount() {
+            return Math.floor(Math.random() * 3) - 1;
+        }
+        this.move(randMoveAmount(), randMoveAmount());
     }
 
     reproduce() {
@@ -88,52 +92,30 @@ class Agent {
     // }
 }
 
-// const world = {
-//     agents: [],
-//     nextID: 0,
-//
-//     addNewAgent(x, y) {
-//         this.agents.push(new Agent(this, this.nextID, x, y));
-//         this.nextID = this.nextID + 1;
-//     },
-//
-//     printAgents() {
-//         function printAgent(agent) {
-//             console.log(`${agent.id}: ${agent.getLoc()}`);
-//         }
-//         this.agents.forEach(printAgent);
-//     },
-//
-//     runRound(round) {
-//         // if (round === 5) {  // TEST
-//         //     this.agents[0].reproduce();
-//         // }
-//         this.agents.forEach(
-//             agent => agent.act()
-//         );
-//     },
-//
-//     numAgents(x, y) {
-//         function agentAccumulator(totalNum, agent) {
-//             return totalNum + agent.isAtLoc(x, y);
-//         }
-//         return this.agents.reduce(agentAccumulator, initialValue = 0);
-//     }
-// };
-
 const rounds = 5;
-
-
 
 class World {
     constructor() {
         this.agents = [];
         this.nextID = 0;
+        this.occupiedLocs = {};
     }
 
     addNewAgent(x, y) {
         this.agents.push(new Agent(this, this.nextID, x, y));
         this.nextID = this.nextID + 1;
+        this.setOccupiedLoc(x, y);
+    }
+
+    isOccupied(x, y) {
+        return Boolean(this.occupiedLocs[x] && this.occupiedLocs[x][y]);
+    }
+
+    numAgents(x, y) {
+        function agentAccumulator(totalNum, agent) {
+            return totalNum + agent.isAtLoc(x, y);
+        }
+        return this.agents.reduce(agentAccumulator, 0);
     }
 
     printAgents() {
@@ -152,11 +134,16 @@ class World {
         );
     }
 
-    numAgents(x, y) {
-        function agentAccumulator(totalNum, agent) {
-            return totalNum + agent.isAtLoc(x, y);
+    setOccupiedLoc(x, y) {
+        // console.log(`[${x}, ${y}]`)
+        if (!this.occupiedLocs[x]) {     // If x is undefined
+            this.occupiedLocs[x] = {};
         }
-        return this.agents.reduce(agentAccumulator, 0);
+        this.occupiedLocs[x][y] = true;
+    }
+
+    unsetOccupiedLoc(x, y) {
+        this.occupiedLocs[x][y] = false;
     }
 };
 
