@@ -21,9 +21,7 @@
 // Pass 8:
 // > Make it so that location checking calculation doesn't go up by square
 // > Metric: location checking amount
-
-// Pass 7:
-// > Test: When an agent moves, occupied locations updates
+// > Refactor numAgents to use occupiedLocs instead
 
 
 class Agent {
@@ -63,8 +61,6 @@ class Agent {
     }
 
     move(x, y) {
-        // console.log(this.x)
-        // console.log(this.y)
         this.world.unsetOccupiedLoc(this.x, this.y)
         this.x = this.x + x;
         this.y = this.y + y;
@@ -111,11 +107,15 @@ class World {
         return Boolean(this.occupiedLocs[x] && this.occupiedLocs[x][y]);
     }
 
+    // numAgents_old(x, y) {
+    //     function agentAccumulator(totalNum, agent) {
+    //         return totalNum + agent.isAtLoc(x, y);
+    //     }
+    //     return this.agents.reduce(agentAccumulator, 0);
+    // }
+    //
     numAgents(x, y) {
-        function agentAccumulator(totalNum, agent) {
-            return totalNum + agent.isAtLoc(x, y);
-        }
-        return this.agents.reduce(agentAccumulator, 0);
+        return this.occupiedLocs[x][y];
     }
 
     printAgents() {
@@ -138,12 +138,13 @@ class World {
         // console.log(`[${x}, ${y}]`)
         if (!this.occupiedLocs[x]) {     // If x is undefined
             this.occupiedLocs[x] = {};
+            this.occupiedLocs[x][y] = 0;
         }
-        this.occupiedLocs[x][y] = true;
+        this.occupiedLocs[x][y] = this.occupiedLocs[x][y] + 1;
     }
 
     unsetOccupiedLoc(x, y) {
-        this.occupiedLocs[x][y] = false;
+        this.occupiedLocs[x][y] = this.occupiedLocs[x][y] - 1;
     }
 };
 

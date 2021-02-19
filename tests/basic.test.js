@@ -14,6 +14,11 @@ afterEach(() => {
 
 
 test('moving causes previous occupied location to be unoccupied', () => {
+    world.addNewAgent(0, 0);
+    world.agents[0].move(1, 1);
+    agentLoc = world.agents[0].getLoc();
+    expect(world.isOccupied(agentLoc[0], agentLoc[1])).toBe(true);
+    expect(world.isOccupied(1, 1)).toBe(true);
 });
 
 test('occupied location is correct when agent moves', () => {
@@ -47,5 +52,8 @@ test('world is reset', () => {
 test('numAgents() count is correct', () => {
     world.addNewAgent(0,0);
     world.addNewAgent(0,0);
-    expect(world.numAgents([0,0])).toBe(2);
+    expect(world.numAgents(0,0)).toBe(2);
+    world.agents[0].move(1,1);
+    expect(world.numAgents(0,0)).toBe(1);
+    expect(world.numAgents(1,1)).toBe(1);
 });
