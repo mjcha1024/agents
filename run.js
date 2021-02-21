@@ -1,27 +1,28 @@
-// Ideas:
-// > [action: send signal to a sensor]
-// > [3d, sunlight, seafloor vents, landscape, gravity]
-// > Implement grid simulation: https://sanojian.github.io/cellauto/
-// > [todo: reduce energy by distance moved]
+// Info:
+// TODO: Implement grid simulation: https://sanojian.github.io/cellauto/
 
 // Backlog:
-// > Environment
-// > Bonds
-// > Genes: Action, strength of action, sensory slot
-// > Movement control
-// > Sensor Energy Cost
-// > Energy
-// > Behavior
-// > Sensors: Free Receptors
-// > Sensors: Association with Actions
-// > Sensors: Add behavior to use sensor
-// > Sensors: Ability to detect whether a location is occupied
-// > Give world the ability to track occupied locations
+// TODO: Environment
+// TODO: Gravity
+// TODO: Landscape
+// TODO: 3D
+// TODO: Sunlight energy
+// TODO: Seafloor Vent Energy
+// TODO: Bonds
+// TODO: Action: send signal to a sensor
+// TODO: Sensors: Free Receptors
+// TODO: Sensors: Association with Actions
+// TODO: Sensor Energy Cost
+// TODO: Sensors: Add behavior to use sensor
+// TODO: Reduce energy by distance moved
+// TODO: Movement control
+// TODO: Energy
+// TODO: Behavior
 
-// Pass 8:
-// > Make it so that location checking calculation doesn't go up by square
-// > Metric: location checking amount
-// > Refactor numAgents to use occupiedLocs instead
+// Pass 10:
+
+// Pass 9:
+// TODO: Give world ability to return agents in a location
 
 
 class Agent {
@@ -107,13 +108,6 @@ class World {
         return Boolean(this.occupiedLocs[x] && this.occupiedLocs[x][y]);
     }
 
-    // numAgents_old(x, y) {
-    //     function agentAccumulator(totalNum, agent) {
-    //         return totalNum + agent.isAtLoc(x, y);
-    //     }
-    //     return this.agents.reduce(agentAccumulator, 0);
-    // }
-    //
     numAgents(x, y) {
         return this.occupiedLocs[x][y];
     }
